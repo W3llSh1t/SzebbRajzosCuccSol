@@ -35,13 +35,21 @@ namespace SzebbRajzosCuccProj
         {
             int btnNum = options.Length;
             int sections = 0;
-            if (btnNum < 6)
+            if (btnNum % 2 == 0)
             {
-                sections = (Console.WindowHeight / 2) / btnNum;
+                if(btnNum <= 4)
+                {
+                    int center = Console.WindowWidth / 2;
+                    int firstBtn = center - ((btnNum / 2) * 10);
+                }
+                else
+                {
+                    int center = Console.WindowWidth / 2;
+                }
             }
             else
             {
-                sections = Console.WindowHeight / btnNum;
+                
             }
             int buttonXPos = 0;
             int buttonYPos = 0;
@@ -51,33 +59,14 @@ namespace SzebbRajzosCuccProj
             string btnBottomRight = "┘";
             string btnHorizontal = "─";
             string btnVertical = "│";
-            //write background for buttons with 20 width and 3 height
-            for(int i = 0; i < btnNum; i++)
-            {
-                buttonYPos = sections * i + sections / 2;
-                buttonXPos = Console.WindowWidth / 2 - 10;
-                Console.SetCursorPosition(buttonXPos, buttonYPos - 1);
-                Console.Write(btnTopLeft + new string(btnHorizontal[0], 20) + btnTopRight);
-                Console.SetCursorPosition(buttonXPos, buttonYPos);
-                Console.Write(btnVertical + new string(' ', 20) + btnVertical);
-                Console.SetCursorPosition(buttonXPos, buttonYPos + 1);
-                Console.Write(btnBottomLeft + new string(btnHorizontal[0], 20) + btnBottomRight);
-            }
-
-            for (int i = 0; i < btnNum; i++)
-            {
-                buttonYPos = sections * i + sections / 2;
-                buttonXPos = Console.WindowWidth / 2 - options[i].Length / 2;
-                Console.SetCursorPosition(buttonXPos, buttonYPos);
-                Console.Write(options[i]);
-            }
+            
         }
         static void Main(string[] args)
         {           
             Console.SetWindowSize(150, 50);
             Frame();
 
-            string[] options = { "Start", "Options", "Exit", "Igen" };
+            string[] options = { "Create File", "Open File", "Delete File", "Exit" };
             DisplayButtons(options);
             Console.ReadKey();
         }
