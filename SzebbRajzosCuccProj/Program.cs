@@ -8,13 +8,13 @@ namespace SzebbRajzosCuccProj
     {
         private static void Frame()
         {
-            string topleft = "╔";
-            string topright = "╗";
-            string bottomleft = "╚";
-            string bottomright = "╝";
-            StringBuilder sb = new StringBuilder(topleft);
+            string topLeft = "╔";
+            string topRight = "╗";
+            string bottomLeft = "╚";
+            string bottomRight = "╝";
+            StringBuilder sb = new StringBuilder(topLeft);
             sb.Append(new string('═', Console.WindowWidth - 2));
-            sb.Append(topright);
+            sb.Append(topRight);
             Console.WriteLine(sb.ToString());
             sb.Clear();
             for (int i = 0; i < Console.WindowHeight - 2; i++)
@@ -25,48 +25,55 @@ namespace SzebbRajzosCuccProj
                 Console.WriteLine(sb.ToString());
                 sb.Clear();
             }
-            sb.Append(bottomleft);
+            sb.Append(bottomLeft);
             sb.Append(new string('═', Console.WindowWidth - 2));
-            sb.Append(bottomright);
+            sb.Append(bottomRight);
             Console.Write(sb.ToString());
             sb.Clear();
         }
         private static void DisplayButtons(string[] options)
         {
+            //┌┐─│└┘
             int btnNum = options.Length;
-            int sections = 0;
-            if (btnNum % 2 == 0)
+            int padding = 5;
+            int btnPos = 0;
+            int btnWidth = 31;
+            int btnHeight = 5;
+            int btnSpace = (Console.WindowHeight - (padding * 2));
+            for (int i = 0; i < btnNum; i++)
             {
-                if(btnNum <= 4)
+                int btnXPos = (Console.WindowWidth / 2);
+                int btnYPos = (btnSpace / btnNum) * (i + 1);
+                Console.SetCursorPosition(btnXPos - 15, btnYPos - 2);
+                StringBuilder sb = new StringBuilder("┌");
+                sb.Append(new string('─', btnWidth - 2));
+                sb.Append("┐");
+                Console.WriteLine(sb.ToString());
+                sb.Clear();
+                for (int j = 0; j < btnHeight - 2; j++)
                 {
-                    int center = Console.WindowWidth / 2;
-                    int firstBtn = center - ((btnNum / 2) * 10);
+                    Console.SetCursorPosition(btnXPos - 15, btnYPos - 1 + j);
+                    Console.WriteLine("│" + new string(' ', btnWidth - 2) + "│");
                 }
-                else
-                {
-                    int center = Console.WindowWidth / 2;
-                }
+                Console.SetCursorPosition(btnXPos - 15, btnYPos + 2);
+                sb.Append("└");
+                sb.Append(new string('─', btnWidth - 2));
+                sb.Append("┘");
+                Console.WriteLine(sb.ToString());
+                sb.Clear();
+                Console.SetCursorPosition(btnXPos - (options[i].Length / 2), btnYPos);
+                Console.WriteLine(options[i]);
+
             }
-            else
-            {
-                
-            }
-            int buttonXPos = 0;
-            int buttonYPos = 0;
-            string btnTopLeft = "┌";
-            string btnTopRight = "┐";
-            string btnBottomLeft = "└";
-            string btnBottomRight = "┘";
-            string btnHorizontal = "─";
-            string btnVertical = "│";
-            
+
+
         }
         static void Main(string[] args)
         {           
             Console.SetWindowSize(150, 50);
             Frame();
 
-            string[] options = { "Create File", "Open File", "Delete File", "Exit" };
+            string[] options = { "Create File", "Open File", "Delete File", "Exit"};
             DisplayButtons(options);
             Console.ReadKey();
         }
