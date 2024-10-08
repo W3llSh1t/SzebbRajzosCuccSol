@@ -140,24 +140,121 @@ namespace SzebbRajzosCuccProj
             } while (key.Key != ConsoleKey.Escape);
             return -1;
         }
+        private static string[] GetFiles()
+        {
+            string[] files = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.ldzs");
+            for (int i = 0; i < files.Length; i++)
+            {
+                files[i] = files[i].Substring(Directory.GetCurrentDirectory().Length + 1);
+            }
+            return files;
+        }
         private static void CreateFile()
         {
+            //▀▄█
             //13 26 39
-            string[] files = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.ldzs");
+            string[] files = GetFiles();
             string[] options = { "", "Create File","" };
-            Console.Clear();
-            Frame();
-            DisplayButtons(options);
-
-            Console.ReadKey();
+            string newFileName = "";
+            bool fileCreated = false;
+            do
+            {
+                Console.Clear();
+                Frame();
+                DisplayButtons(options);
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.SetCursorPosition((Console.WindowWidth / 2) - 15, 24);
+                StringBuilder sb = new StringBuilder(" ");
+                sb.Append(new string('▄', 31 - 2));
+                sb.Append(" ");
+                Console.WriteLine(sb.ToString());
+                sb.Clear();
+                for (int j = 0; j < 5 - 2; j++)
+                {
+                    Console.SetCursorPosition(Console.WindowWidth / 2 - 15, 26 - 1 + j);
+                    Console.WriteLine("█" + new string('█', 31 - 2) + "█");
+                }
+                Console.SetCursorPosition(Console.WindowWidth / 2 - 15, 26 + 2);
+                sb.Append(" ");
+                sb.Append(new string('▀', 31 - 2));
+                sb.Append(" ");
+                Console.WriteLine(sb.ToString());
+                sb.Clear();
+                Console.SetCursorPosition(Console.WindowWidth / 2 - (options[1].Length / 2), 26);
+                Console.BackgroundColor = ConsoleColor.White;
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.WriteLine(options[1]);
+                Console.SetCursorPosition((Console.WindowWidth - 1), (Console.WindowHeight - 1));
+                Console.SetCursorPosition((Console.WindowWidth / 2) - 12, 13);
+                Console.ResetColor();
+                string unCheckedName = Console.ReadLine();
+                bool fileExists = false;
+                
+                if (unCheckedName.Length > 0)
+                {
+                    for(int i = 0; i < files.Length; i++)
+                    {
+                        if (files[i] == unCheckedName)
+                        {
+                            Console.SetCursorPosition((Console.WindowWidth / 2) - 12, 39);
+                            Console.WriteLine("File already exists!");
+                            Thread.Sleep(1000);
+                            fileExists = true;
+                        }
+                    }
+                    if (fileExists == false)
+                    {
+                        for (int i = 0; i < unCheckedName.Length; i++)
+                        {
+                            if (unCheckedName[i] == ' ')
+                            {
+                                unCheckedName = unCheckedName.Remove(i, 1);
+                            }
+                            if (unCheckedName[i] == '.')
+                            {
+                                unCheckedName = unCheckedName.Remove(i, 1);
+                            }
+                        }
+                        newFileName = unCheckedName + ".ldzs";
+                        File.Create(newFileName).Close();
+                        
+                        string newFileString = "";
+                        for (int i = 0; i < 48; i++)
+                        {
+                            for (int j = 0; j < 147; j++)
+                            {
+                                newFileString += "0,0;";
+                            }
+                            newFileString += "0,0";
+                            if (i != 47)
+                            {
+                                newFileString += "\n";
+                            }
+                        }
+                        File.WriteAllText(newFileName, newFileString);
+                        Console.SetCursorPosition((Console.WindowWidth / 2) - 12, 39);
+                        Console.WriteLine("File created!");
+                        Thread.Sleep(1000);
+                        fileCreated = true;
+                    }
+                }
+                else
+                {
+                    Console.SetCursorPosition((Console.WindowWidth / 2) - 12, 39);
+                    Console.WriteLine("Invalid file name!");
+                    Thread.Sleep(1000);
+                }
+            } while (fileCreated != true);
+            
         }
         private static void OpenFile()
         {
-            string[] files = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.ldzs");
+            string[] files = GetFiles();
         }
         private static void DeleteFile()
         {
-            string[] files = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.ldzs");
+            string[] files = GetFiles();
         }
         static void Main(string[] args)
         {           
