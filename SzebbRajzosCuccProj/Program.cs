@@ -3,11 +3,20 @@ using System.IO;
 using System;
 using System.Runtime.InteropServices;
 using System.Drawing;
+using System.ComponentModel;
 
 namespace SzebbRajzosCuccProj
 {
     internal class Program
     {
+        private static int winWidth = 150;
+        private static int winHeight = 50;
+        private static string saturation = "█";
+        private static int currentRow = 13;
+        private static int currentCol = 1;
+        private static int writeRow = 0;
+        private static int writeCol = 0;
+        private static int color = 0;
         private static void Frame()
         {
             string topLeft = "╔";
@@ -271,41 +280,73 @@ namespace SzebbRajzosCuccProj
             return files[opt];
         }
         static void Main(string[] args)
-        {           
-            Console.SetWindowSize(150, 50);
-            Frame();
-            string[] options = { "Create File", "Open File", "Delete File", "Exit"};
-            int opt = Menu(DisplayButtons(options),options,0);
-            Console.ResetColor();
-            switch (opt){
-                case 0:
-                    CreateFile();
-                    break;
-                case 1:
-                    string fileToOpen = OpenFile();
-                    break;
-                case 2:
-                    string fileToDelete = DeleteFile();
-                    break;
-                case 3:
-                    Thread.Sleep(1000);
-                    Environment.Exit(0);
-                    break;
-                case -1:
-                    Environment.Exit(0);
-                    break;
-            }
-            /*
+        {
+            bool fileDone = false;
+            string[,] currentFile = new string[48, 148];
+            ConsoleKeyInfo input;
+            int proceed = 0;
+            int proceed1 = 0;
+            int toggleDraw = 0;
+            string fileToOpen = "";
+            int l = 0;
+            do
+            {
+                Console.Clear();
+                Console.SetWindowSize(150, 50);
+                Frame();
+                string[] options = { "Create File", "Open File", "Delete File", "Exit" };
+                int opt = Menu(DisplayButtons(options), options, 0);
+                Console.ResetColor();
+                switch (opt)
+                {
+                    case 0:
+                        CreateFile();
+                        break;
+                    case 1:
+                        fileToOpen = OpenFile();
+                        string[] fileContent = File.ReadAllLines(fileToOpen);
+                        for (int i = 0; i < fileContent.Length; i++)
+                        {
+                            string[] line = fileContent[i].Split("\n");
+                            for (int j = 0; j < line.Length; j++)
+                            {
+                                string[] cell = line[j].Split(";");
+                                for (int k = 0; k < cell.Length; k++)
+                                {
+                                    string[] data = cell[k].Split(",");
+                                    currentFile[i, k] = $"{data[0]},{data[1]};";
+                                }
+                            }
+                        }
+                        fileDone = true;
+                        break;
+                    case 2:
+                        string fileToDelete = DeleteFile();
+                        File.Delete(fileToDelete);
+                        Thread.Sleep(1000);
+                        Environment.Exit(0);
+                        break;
+                    case 3:
+                        Thread.Sleep(1000);
+                        Environment.Exit(0);
+                        break;
+                    case -1:
+                        Environment.Exit(0);
+                        break;
+                }
+            } while (fileDone != true);
+            string openedFile = fileToOpen;
+            Console.Clear();
             do
             {
 
                 winWidth = Console.WindowWidth;
                 winHeight = Console.WindowHeight;
-                paintInterface();
+                Frame();
 
                 do
                 {
-                    for (int i = 0; i < winHeight - 15; i++)
+                    for (int i = 0; i < winHeight - 2; i++)
                     {
                         for (int j = 0; j < winWidth - 2; j++)
                         {
@@ -429,64 +470,51 @@ namespace SzebbRajzosCuccProj
                             break;
                         case ConsoleKey.D1:
                             Console.ForegroundColor = ConsoleColor.Blue;
-                            writeColor();
                             color = 1;
                             break;
                         case ConsoleKey.D2:
                             Console.ForegroundColor = ConsoleColor.Red;
-                            writeColor();
                             color = 2;
                             break;
                         case ConsoleKey.D3:
                             Console.ForegroundColor = ConsoleColor.Green;
-                            writeColor();
                             color = 3;
                             break;
                         case ConsoleKey.D4:
                             Console.ForegroundColor = ConsoleColor.Yellow;
-                            writeColor();
                             color = 4;
                             break;
                         case ConsoleKey.D5:
                             Console.ForegroundColor = ConsoleColor.DarkBlue;
-                            writeColor();
                             color = 5;
                             break;
                         case ConsoleKey.D6:
                             Console.ForegroundColor = ConsoleColor.DarkRed;
-                            writeColor();
                             color = 6;
                             break;
                         case ConsoleKey.D7:
                             Console.ForegroundColor = ConsoleColor.DarkGreen;
-                            writeColor();
                             color = 7;
                             break;
                         case ConsoleKey.D8:
                             Console.ForegroundColor = ConsoleColor.DarkYellow;
-                            writeColor();
                             color = 8;
                             break;
                         case ConsoleKey.D9:
                             Console.ForegroundColor = ConsoleColor.White;
-                            writeColor();
                             color = 9;
                             break;
                         case ConsoleKey.F1:
                             saturation = "█";
-                            writeColor();
                             break;
                         case ConsoleKey.F2:
                             saturation = "▓";
-                            writeColor();
                             break;
                         case ConsoleKey.F3:
                             saturation = "▒";
-                            writeColor();
                             break;
                         case ConsoleKey.F4:
                             saturation = "░";
-                            writeColor();
                             break;
                         case ConsoleKey.Spacebar:
                             Console.Write(saturation);
@@ -496,11 +524,10 @@ namespace SzebbRajzosCuccProj
                         case ConsoleKey.Backspace:
                             Console.SetCursorPosition(1, 13);
                             Console.ResetColor();
-                            paintInterface();
+                            Frame();
                             Console.SetCursorPosition(1, 13);
                             currentCol = 1;
                             currentRow = 13;
-                            writeColor();
                             break;
                         case ConsoleKey.C:
                             if (toggleDraw == 0)
@@ -540,7 +567,7 @@ namespace SzebbRajzosCuccProj
 
                 } while (input.Key != ConsoleKey.Escape);
             } while (input.Key != ConsoleKey.Escape);
-            */
+            
         }
     }
 }
