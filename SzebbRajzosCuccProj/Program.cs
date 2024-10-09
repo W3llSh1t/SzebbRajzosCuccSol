@@ -151,7 +151,6 @@ namespace SzebbRajzosCuccProj
         }
         private static void CreateFile()
         {
-            //asdasd
             //▀▄█
             //13 26 39
             string[] files = GetFiles();
@@ -194,16 +193,6 @@ namespace SzebbRajzosCuccProj
                 
                 if (unCheckedName.Length > 0)
                 {
-                    for(int i = 0; i < files.Length; i++)
-                    {
-                        if (files[i] == unCheckedName)
-                        {
-                            Console.SetCursorPosition((Console.WindowWidth / 2) - 12, 39);
-                            Console.WriteLine("File already exists!");
-                            Thread.Sleep(1000);
-                            fileExists = true;
-                        }
-                    }
                     if (fileExists == false)
                     {
                         for (int i = 0; i < unCheckedName.Length; i++)
@@ -218,26 +207,39 @@ namespace SzebbRajzosCuccProj
                             }
                         }
                         newFileName = unCheckedName + ".ldzs";
-                        File.Create(newFileName).Close();
-                        
-                        string newFileString = "";
-                        for (int i = 0; i < 48; i++)
+                        for (int i = 0; i < files.Length; i++)
                         {
-                            for (int j = 0; j < 147; j++)
+                            if (files[i] == newFileName)
                             {
-                                newFileString += "0,0;";
-                            }
-                            newFileString += "0,0";
-                            if (i != 47)
-                            {
-                                newFileString += "\n";
+                                Console.SetCursorPosition((Console.WindowWidth / 2) - 12, 39);
+                                Console.WriteLine("File already exists!");
+                                Thread.Sleep(1000);
+                                fileExists = true;
                             }
                         }
-                        File.WriteAllText(newFileName, newFileString);
-                        Console.SetCursorPosition((Console.WindowWidth / 2) - 12, 39);
-                        Console.WriteLine("File created!");
-                        Thread.Sleep(1000);
-                        fileCreated = true;
+                        if (!fileExists)
+                        {
+                            File.Create(newFileName).Close();
+
+                            string newFileString = "";
+                            for (int i = 0; i < 48; i++)
+                            {
+                                for (int j = 0; j < 147; j++)
+                                {
+                                    newFileString += "0,0;";
+                                }
+                                newFileString += "0,0";
+                                if (i != 47)
+                                {
+                                    newFileString += "\n";
+                                }
+                            }
+                            File.WriteAllText(newFileName, newFileString);
+                            Console.SetCursorPosition((Console.WindowWidth / 2) - 12, 39);
+                            Console.WriteLine("File created!");
+                            Thread.Sleep(1000);
+                            fileCreated = true;
+                        }
                     }
                 }
                 else
