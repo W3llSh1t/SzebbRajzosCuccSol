@@ -11,7 +11,6 @@ namespace SzebbRajzosCuccProj
     {
         private static int winWidth = 150;
         private static int winHeight = 50;
-        private static string saturation = "█";
         private static int currentRow = 1;
         private static int currentCol = 1;
         private static int writeRow = 0;
@@ -54,7 +53,15 @@ namespace SzebbRajzosCuccProj
             for (int i = 0; i < btnNum; i++)
             {
                 int btnXPos = (Console.WindowWidth / 2);
-                int btnYPos = (btnSpace / btnNum) * (i + 1);
+                int btnYPos = 0;
+                if (btnNum == 1)
+                {
+                    btnYPos = Console.WindowHeight / 2;
+                }
+                else
+                {
+                    btnYPos = (btnSpace / btnNum) * (i + 1);
+                }
                 btnPos[i] = btnYPos;
                 Console.SetCursorPosition(btnXPos - 15, btnYPos - 2);
                 StringBuilder sb = new StringBuilder("┌");
@@ -96,7 +103,15 @@ namespace SzebbRajzosCuccProj
                 Console.SetCursorPosition((Console.WindowWidth - 15), (btnPos[selected] - 2));
                 Console.ForegroundColor = ConsoleColor.White;
                     int btnXPos = (Console.WindowWidth / 2);
-                    int btnYPos = (btnSpace / btnNum) * (selected + 1);
+                    int btnYPos = 0;
+                    if (btnNum == 1)
+                    {
+                        btnYPos = Console.WindowHeight / 2;
+                    }
+                    else
+                    {
+                        btnYPos = (btnSpace / btnNum) * (selected + 1);
+                    }
                     btnPos[selected] = btnYPos;
                     Console.SetCursorPosition(btnXPos - 15, btnYPos - 2);
                     StringBuilder sb = new StringBuilder(" ");
@@ -284,8 +299,6 @@ namespace SzebbRajzosCuccProj
             bool fileDone = false;
             string[,] currentFile = new string[48, 148];
             ConsoleKeyInfo input;
-            int proceed = 0;
-            int proceed1 = 0;
             int toggleDraw = 0;
             string fileToOpen = "";
             int l = 0;
@@ -294,7 +307,7 @@ namespace SzebbRajzosCuccProj
                 Console.Clear();
                 Console.SetWindowSize(150, 50);
                 Frame();
-                string[] options = { "Create File", "Open File", "Delete File", "Exit" };
+                string[] options = { "Create File", "Open File", "Delete File", "Close" };
                 int opt = Menu(DisplayButtons(options), options, 0);
                 Console.ResetColor();
                 switch (opt)
