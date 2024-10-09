@@ -12,7 +12,7 @@ namespace SzebbRajzosCuccProj
         private static int winWidth = 150;
         private static int winHeight = 50;
         private static string saturation = "█";
-        private static int currentRow = 13;
+        private static int currentRow = 1;
         private static int currentCol = 1;
         private static int writeRow = 0;
         private static int writeCol = 0;
@@ -394,7 +394,7 @@ namespace SzebbRajzosCuccProj
                                     Console.ForegroundColor = ConsoleColor.White;
                                     break;
                             }
-                            Console.SetCursorPosition(j + 1, i + 13);
+                            Console.SetCursorPosition(j + 1, i + 1);
                             if (ok == 1)
                             {
                                 Console.Write(saturation1);
@@ -405,7 +405,7 @@ namespace SzebbRajzosCuccProj
 
                 } while (l < currentFile.Length);
                 string saturation = "█";
-                Console.SetCursorPosition(1, 13);
+                Console.SetCursorPosition(1, 1);
                 do
                 {
                     Console.SetWindowSize(150, 50);
@@ -441,7 +441,7 @@ namespace SzebbRajzosCuccProj
                             }
                             break;
                         case ConsoleKey.UpArrow:
-                            if (currentRow != 13)
+                            if (currentRow != 1)
                             {
                                 Console.SetCursorPosition(currentCol, currentRow - 1);
                                 if (toggleDraw == 1)
@@ -455,7 +455,7 @@ namespace SzebbRajzosCuccProj
                             }
                             break;
                         case ConsoleKey.DownArrow:
-                            if (currentRow != winHeight - 3)
+                            if (currentRow != winHeight - 2)
                             {
                                 Console.SetCursorPosition(currentCol, currentRow + 1);
                                 if (toggleDraw == 1)
@@ -544,14 +544,14 @@ namespace SzebbRajzosCuccProj
                             File.Delete(openedFile);
                             File.Create(openedFile).Close();
                             string currentFileString = "";
-                            for (int i = 0; i < winHeight - 15; i++)
+                            for (int i = 0; i < winHeight - 2; i++)
                             {
                                 for (int j = 0; j < 147; j++)
                                 {
                                     currentFileString += currentFile[i, j];
                                 }
                                 currentFileString += currentFile[i, 147].Substring(0, 3);
-                                if (i != winHeight - 16)
+                                if (i != winHeight - 3)
                                 {
                                     currentFileString += "\n";
                                 }
