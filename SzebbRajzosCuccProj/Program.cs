@@ -151,6 +151,7 @@ namespace SzebbRajzosCuccProj
         }
         private static void CreateFile()
         {
+            //asdasd
             //▀▄█
             //13 26 39
             string[] files = GetFiles();
