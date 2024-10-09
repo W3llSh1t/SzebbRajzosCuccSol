@@ -2,6 +2,7 @@
 using System.IO;
 using System;
 using System.Runtime.InteropServices;
+using System.Drawing;
 
 namespace SzebbRajzosCuccProj
 {
@@ -251,13 +252,23 @@ namespace SzebbRajzosCuccProj
             } while (fileCreated != true);
             
         }
-        private static void OpenFile()
+        private static string OpenFile()
         {
             string[] files = GetFiles();
+            Console.Clear();
+            Frame();
+            int opt = Menu(DisplayButtons(files),files,0);
+            Console.ResetColor();
+            return files[opt];
         }
-        private static void DeleteFile()
+        private static string DeleteFile()
         {
             string[] files = GetFiles();
+            Console.Clear();
+            Frame();
+            int opt = Menu(DisplayButtons(files), files, 0);
+            Console.ResetColor();
+            return files[opt];
         }
         static void Main(string[] args)
         {           
@@ -271,10 +282,10 @@ namespace SzebbRajzosCuccProj
                     CreateFile();
                     break;
                 case 1:
-                    OpenFile();
+                    string fileToOpen = OpenFile();
                     break;
                 case 2:
-                    DeleteFile();
+                    string fileToDelete = DeleteFile();
                     break;
                 case 3:
                     Thread.Sleep(1000);
@@ -284,6 +295,252 @@ namespace SzebbRajzosCuccProj
                     Environment.Exit(0);
                     break;
             }
+            /*
+            do
+            {
+
+                winWidth = Console.WindowWidth;
+                winHeight = Console.WindowHeight;
+                paintInterface();
+
+                do
+                {
+                    for (int i = 0; i < winHeight - 15; i++)
+                    {
+                        for (int j = 0; j < winWidth - 2; j++)
+                        {
+                            string[] data = currentFile[i, j].Split(",");
+                            int ok = 0;
+                            string saturation1 = "";
+                            int color = 0;
+                            if (data[0] != "0")
+                            {
+                                ok = 1;
+                                saturation1 = data[0];
+                                data[1] = data[1].Substring(0, data[1].Length - 1);
+                                color = int.Parse(data[1]);
+                            }
+                            switch (color)
+                            {
+                                case 0:
+                                    Console.ResetColor();
+                                    break;
+                                case 1:
+                                    Console.ForegroundColor = ConsoleColor.Blue;
+                                    break;
+                                case 2:
+                                    Console.ForegroundColor = ConsoleColor.Red;
+                                    break;
+                                case 3:
+                                    Console.ForegroundColor = ConsoleColor.Green;
+                                    break;
+                                case 4:
+                                    Console.ForegroundColor = ConsoleColor.Yellow;
+                                    break;
+                                case 5:
+                                    Console.ForegroundColor = ConsoleColor.DarkBlue;
+                                    break;
+                                case 6:
+                                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                                    break;
+                                case 7:
+                                    Console.ForegroundColor = ConsoleColor.DarkGreen;
+                                    break;
+                                case 8:
+                                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                                    break;
+                                case 9:
+                                    Console.ForegroundColor = ConsoleColor.White;
+                                    break;
+                            }
+                            Console.SetCursorPosition(j + 1, i + 13);
+                            if (ok == 1)
+                            {
+                                Console.Write(saturation1);
+                            }
+                            l++;
+                        }
+                    }
+
+                } while (l < currentFile.Length);
+                string saturation = "█";
+                Console.SetCursorPosition(1, 13);
+                do
+                {
+                    Console.SetWindowSize(150, 50);
+                    input = Console.ReadKey(true);
+                    switch (input.Key)
+                    {
+                        case ConsoleKey.LeftArrow:
+                            if (currentCol != 1)
+                            {
+                                Console.SetCursorPosition(currentCol - 1, currentRow);
+                                if (toggleDraw == 1)
+                                {
+                                    Console.Write(saturation);
+                                    currentFile[writeRow, writeCol] = $"{saturation},{color};";
+                                }
+                                currentCol--;
+                                writeCol--;
+
+                            }
+                            break;
+                        case ConsoleKey.RightArrow:
+                            if (currentCol != winWidth - 2)
+                            {
+                                Console.SetCursorPosition(currentCol + 1, currentRow);
+                                if (toggleDraw == 1)
+                                {
+                                    Console.Write(saturation);
+                                    currentFile[writeRow, writeCol] = $"{saturation},{color};";
+                                }
+                                currentCol++;
+                                writeCol++;
+
+                            }
+                            break;
+                        case ConsoleKey.UpArrow:
+                            if (currentRow != 13)
+                            {
+                                Console.SetCursorPosition(currentCol, currentRow - 1);
+                                if (toggleDraw == 1)
+                                {
+                                    Console.Write(saturation);
+                                    currentFile[writeRow, writeCol] = $"{saturation},{color};";
+                                }
+                                currentRow--;
+                                writeRow--;
+
+                            }
+                            break;
+                        case ConsoleKey.DownArrow:
+                            if (currentRow != winHeight - 3)
+                            {
+                                Console.SetCursorPosition(currentCol, currentRow + 1);
+                                if (toggleDraw == 1)
+                                {
+                                    Console.Write(saturation);
+                                    currentFile[writeRow, writeCol] = $"{saturation},{color};";
+                                }
+                                currentRow++;
+                                writeRow++;
+
+                            }
+                            break;
+                        case ConsoleKey.D1:
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                            writeColor();
+                            color = 1;
+                            break;
+                        case ConsoleKey.D2:
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            writeColor();
+                            color = 2;
+                            break;
+                        case ConsoleKey.D3:
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            writeColor();
+                            color = 3;
+                            break;
+                        case ConsoleKey.D4:
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            writeColor();
+                            color = 4;
+                            break;
+                        case ConsoleKey.D5:
+                            Console.ForegroundColor = ConsoleColor.DarkBlue;
+                            writeColor();
+                            color = 5;
+                            break;
+                        case ConsoleKey.D6:
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
+                            writeColor();
+                            color = 6;
+                            break;
+                        case ConsoleKey.D7:
+                            Console.ForegroundColor = ConsoleColor.DarkGreen;
+                            writeColor();
+                            color = 7;
+                            break;
+                        case ConsoleKey.D8:
+                            Console.ForegroundColor = ConsoleColor.DarkYellow;
+                            writeColor();
+                            color = 8;
+                            break;
+                        case ConsoleKey.D9:
+                            Console.ForegroundColor = ConsoleColor.White;
+                            writeColor();
+                            color = 9;
+                            break;
+                        case ConsoleKey.F1:
+                            saturation = "█";
+                            writeColor();
+                            break;
+                        case ConsoleKey.F2:
+                            saturation = "▓";
+                            writeColor();
+                            break;
+                        case ConsoleKey.F3:
+                            saturation = "▒";
+                            writeColor();
+                            break;
+                        case ConsoleKey.F4:
+                            saturation = "░";
+                            writeColor();
+                            break;
+                        case ConsoleKey.Spacebar:
+                            Console.Write(saturation);
+                            Console.SetCursorPosition(currentCol, currentRow);
+                            currentFile[writeRow, writeCol] = $"{saturation},{color};";
+                            break;
+                        case ConsoleKey.Backspace:
+                            Console.SetCursorPosition(1, 13);
+                            Console.ResetColor();
+                            paintInterface();
+                            Console.SetCursorPosition(1, 13);
+                            currentCol = 1;
+                            currentRow = 13;
+                            writeColor();
+                            break;
+                        case ConsoleKey.C:
+                            if (toggleDraw == 0)
+                            {
+                                toggleDraw = 1;
+                            }
+                            else
+                            {
+                                toggleDraw = 0;
+                            }
+                            break;
+                        case ConsoleKey.F5:
+
+                            File.Delete(openedFile);
+                            File.Create(openedFile).Close();
+                            string currentFileString = "";
+                            for (int i = 0; i < winHeight - 15; i++)
+                            {
+                                for (int j = 0; j < 147; j++)
+                                {
+                                    currentFileString += currentFile[i, j];
+                                }
+                                currentFileString += currentFile[i, 147].Substring(0, 3);
+                                if (i != winHeight - 16)
+                                {
+                                    currentFileString += "\n";
+                                }
+                            }
+                            File.WriteAllText(openedFile, currentFileString);
+                            Console.SetCursorPosition(11, 33);
+                            Console.Write("File saved!");
+                            Thread.Sleep(2500);
+                            Environment.Exit(0);
+                            break;
+
+                    }
+
+                } while (input.Key != ConsoleKey.Escape);
+            } while (input.Key != ConsoleKey.Escape);
+            */
         }
     }
 }
